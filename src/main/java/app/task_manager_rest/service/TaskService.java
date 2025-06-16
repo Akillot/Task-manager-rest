@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class TaskService {
 
-    private final Map<Long, Task> taskStorage = new ConcurrentMap<String, Task>();
+    private final Map<Long, Task> taskStorage = new ConcurrentHashMap<>();
     private final AtomicLong idGenerator = new AtomicLong(1);
 
-    public TaskResponse createTask(TaskRequest task) {
+    public TaskResponse createTask(TaskRequest request) {
         Long id = idGenerator.getAndIncrement();
-        Task task = new Task(id, request.getTitle(), request.getDeskription(), request.getIsCompleted());
+        Task task = new Task(id, request.getTitle(), request.getDescription(), request.getIsCompleted());
         taskStorage.put(id,task);
         return mapToResponse(task);
     }
@@ -41,14 +41,14 @@ public class TaskService {
         return mapToResponse(task);
     }
 
-    public static TaskResponse updateTask(Long id, TaskRequest task) {
+    public TaskResponse updateTask(Long id, TaskRequest request) {
         Task task = taskStorage.get(id);
         if(task == null){
             throw new NoSuchElementException("Task not found");
         }
-        task.setTitle(task.getTitle());
-        task.setDescription(task.getDescription());
-        task.setIsCompleted(task.getIsCompleted());
+        task.setTitle(request.getTitle());
+        task.setDescription(request.getDescription());
+        task.setIsCompleted(request.getIsCompleted());
         return mapToResponse(task);
     }
 
