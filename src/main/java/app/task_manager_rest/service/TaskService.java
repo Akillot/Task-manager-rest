@@ -41,7 +41,7 @@ public class TaskService {
         return mapToResponse(task);
     }
 
-    public TaskResponse updateTask(Long id, TaskRequest task) {
+    public static TaskResponse updateTask(Long id, TaskRequest task) {
         Task task = taskStorage.get(id);
         if(task == null){
             throw new NoSuchElementException("Task not found");
