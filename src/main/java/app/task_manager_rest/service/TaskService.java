@@ -5,12 +5,10 @@ import app.task_manager_rest.dto.TaskResponse;
 import app.task_manager_rest.model.Task;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -56,6 +54,14 @@ public class TaskService {
         if(taskStorage.remove(id) == null){
             throw new NoSuchElementException("Task not found");
         }
+    }
+
+    public List<TaskResponse> sortingByStatus(){
+        return taskStorage.values().stream()
+                .sorted(Comparator.comparing(Task::getIsCompleted))
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+
     }
 
     private TaskResponse mapToResponse(Task task){
