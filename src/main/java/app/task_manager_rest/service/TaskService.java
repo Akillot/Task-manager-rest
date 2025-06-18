@@ -61,7 +61,6 @@ public class TaskService {
                 .sorted(Comparator.comparing(Task::getIsCompleted))
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
-
     }
 
     private TaskResponse mapToResponse(Task task){

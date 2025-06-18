@@ -44,4 +44,9 @@ public class TaskController {
     public void delete(@PathVariable Long id){
         taskService.deleteTaskById(id);
     }
+
+    @GetMapping("/sort")
+    public List<TaskResponse> getSort(){
+        return taskService.sortingByStatus();
+    }
 }
