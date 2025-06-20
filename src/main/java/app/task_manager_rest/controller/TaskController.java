@@ -45,8 +45,13 @@ public class TaskController {
         taskService.deleteTaskById(id);
     }
 
-    @GetMapping("/sort")
+    @GetMapping("/sort-by-status-false-first")
     public List<TaskResponse> getSort(){
-        return taskService.sortingByStatus();
+        return taskService.sortingByStatusFalseFirst();
+    }
+
+    @GetMapping("/sort-by-status-true-first")
+    public List<TaskResponse> getSortByStatusTrueFirst(){
+        return taskService.sortingByStatusTrueFirst();
     }
 }

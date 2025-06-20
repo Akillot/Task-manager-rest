@@ -56,9 +56,16 @@ public class TaskService {
         }
     }
 
-    public List<TaskResponse> sortingByStatus(){
+    public List<TaskResponse> sortingByStatusFalseFirst(){
         return taskStorage.values().stream()
                 .sorted(Comparator.comparing(Task::getIsCompleted))
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<TaskResponse> sortingByStatusTrueFirst(){
+        return taskStorage.values().stream()
+                .sorted(Comparator.comparing(Task::getIsCompleted).reversed())
                 .map(this::mapToResponse)
                 .collect(Collectors.toList());
     }
